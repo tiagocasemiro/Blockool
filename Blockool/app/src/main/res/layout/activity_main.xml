@@ -1,0 +1,14 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context="br.com.blockool.blockool.MainActivity">
+    <FrameLayout
+        android:id="@+id/game"
+        android:layout_width="250dp"
+        android:layout_height="500dp"/>
+</LinearLayout>
