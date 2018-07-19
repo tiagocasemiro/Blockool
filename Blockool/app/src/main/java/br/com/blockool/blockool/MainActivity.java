@@ -5,7 +5,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
-import android.view.View;
+
+import br.com.blockool.blockool.game.InputGestureProcess;
 
 public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;

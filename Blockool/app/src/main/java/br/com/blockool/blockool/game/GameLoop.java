@@ -1,4 +1,4 @@
-package br.com.blockool.blockool;
+package br.com.blockool.blockool.game;
 
 import android.app.Activity;
 import android.os.Handler;

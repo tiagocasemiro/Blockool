@@ -1,4 +1,7 @@
-package br.com.blockool.blockool;
+package br.com.blockool.blockool.game;
+
+import br.com.blockool.blockool.entity.Block;
+import br.com.blockool.blockool.entity.Scene;
 
 /**
  * Created by tiago.casemiro on 18/07/2018.

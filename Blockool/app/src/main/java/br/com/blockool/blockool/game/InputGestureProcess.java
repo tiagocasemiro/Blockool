@@ -1,4 +1,4 @@
-package br.com.blockool.blockool;
+package br.com.blockool.blockool.game;
 
 /**
  * Created by tiago.casemiro on 19/07/2018.

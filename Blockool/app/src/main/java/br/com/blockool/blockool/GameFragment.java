@@ -7,6 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import br.com.blockool.blockool.game.DrawnSchene;
+import br.com.blockool.blockool.game.GameLoop;
+import br.com.blockool.blockool.game.GameRulesProcess;
+import br.com.blockool.blockool.game.InputGestureProcess;
+
 public class GameFragment extends Fragment implements GameLoop.LoopListener, InputGestureProcess.Listener{
     private GameLoop gameLoop;
     private DrawnSchene drawnSchene;

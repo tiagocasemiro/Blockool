@@ -1,9 +1,11 @@
-package br.com.blockool.blockool;
+package br.com.blockool.blockool.game;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import br.com.blockool.blockool.entity.Block;
 
 /**
  * Created by tiago.casemiro on 18/07/2018.
