@@ -28,14 +28,15 @@ public class GameLoop {
         timer.schedule(new TimerTask() {
             public void run() {
                 if (isRunning) {
-                    loopCount++;
-                    if(loopCount >= 10) {
-                        loopCount = 0;
-                        loopListener.onGravityLoop();
-                    }
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            loopCount++;
+                            if(loopCount >= 10) {
+                                loopCount = 0;
+                                loopListener.onGravityLoop();
+                            }
+
                             loopListener.onLoop();
                         }
                     });

@@ -44,7 +44,7 @@ public class DrawnSchene {
     }
 
     private void drawn(Block blockObject, View blockView) {
-        if(blockObject != null) {
+        if(blockObject != null && blockObject.getColor() != null) {
             switch (blockObject.getColor()) {
                 case BLUE:
                     blockView.setBackgroundColor(Color.BLUE);

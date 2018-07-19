@@ -6,12 +6,10 @@ package br.com.blockool.blockool.game;
 
 public class InputGestureProcess {
     private Listener listener;
-
     private Float oldX;
     private Float oldY;
 
-    private final float TOLERANCE = 15f;
-
+    private final float TOLERANCE = 80f;
 
     public InputGestureProcess(Listener listener) {
         this.listener = listener;
