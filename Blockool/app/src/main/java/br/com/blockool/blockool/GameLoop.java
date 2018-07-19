@@ -2,6 +2,7 @@ package br.com.blockool.blockool;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.view.View;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -14,9 +15,12 @@ public class GameLoop {
     private Timer timer;
     private boolean isRunning = true;
     private LoopListener loopListener;
+    private Activity activity;
+    private int loopCount;
 
-    public GameLoop(LoopListener loopListener) {
+    public GameLoop(LoopListener loopListener, Activity activity) {
         this.loopListener = loopListener;
+        this.activity = activity;
     }
 
     public void start() {
@@ -24,10 +28,20 @@ public class GameLoop {
         timer.schedule(new TimerTask() {
             public void run() {
                 if (isRunning) {
-                    loopListener.onLoop();
+                    loopCount++;
+                    if(loopCount >= 10) {
+                        loopCount = 0;
+                        loopListener.onGravityLoop();
+                    }
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            loopListener.onLoop();
+                        }
+                    });
                 }
             }
-        }, 1000, 1000);
+        }, 100, 100);
     }
 
     public void resume() {
@@ -44,5 +58,6 @@ public class GameLoop {
 
     public interface LoopListener {
         void onLoop();
+        void onGravityLoop();
     }
 }

@@ -7,22 +7,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-public class GameFragment extends Fragment implements GameLoop.LoopListener{
+public class GameFragment extends Fragment implements GameLoop.LoopListener, InputGestureProcess.Listener{
     private GameLoop gameLoop;
     private DrawnSchene drawnSchene;
     private FrameLayout gameView;
-    private Block[][] blocks;
-
+    private GameRulesProcess gameRulesProcess;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_game, container, false);
 
         gameView = (FrameLayout) root.findViewById(R.id.gameView);
-        gameLoop = new GameLoop(this);
+        gameLoop = new GameLoop(this, getActivity());
         drawnSchene = new DrawnSchene(getContext());
+        gameRulesProcess =  new GameRulesProcess();
 
-        blocks = new Block[20][10];
+       /* View view = drawnSchene.getSchene(gameRulesProcess.scene().getBlocks());
+        gameView.removeAllViews();
+        gameView.addView(view);*/
+
 
         return root;
     }
@@ -35,13 +38,31 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener{
 
     @Override
     public void onLoop() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                View view = drawnSchene.getSchene(blocks);
-                gameView.removeAllViews();
-                gameView.addView(view);
-            }
-        });
+        gameRulesProcess.processGame();
+    }
+
+    @Override
+    public void onGravityLoop() {
+        gameRulesProcess.processGravity();
+    }
+
+    @Override
+    public void onDown() {
+        gameRulesProcess.processInputDown();
+    }
+
+    @Override
+    public void onUp() {
+        gameRulesProcess.processInputUp();
+    }
+
+    @Override
+    public void onRight() {
+        gameRulesProcess.processInputRight();
+    }
+
+    @Override
+    public void onLeft() {
+        gameRulesProcess.processInputLeft();
     }
 }
