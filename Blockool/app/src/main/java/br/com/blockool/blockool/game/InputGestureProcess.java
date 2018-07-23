@@ -23,19 +23,19 @@ public class InputGestureProcess {
     public void process(float x, float y) {
         if(oldX != null && oldY != null) {
             if (x + TOLERANCE < oldX) {
-                listener.onLeft();
+                listener.onInputLeft();
             }
 
             if (x - TOLERANCE > oldX) {
-                listener.onRight();
+                listener.onInputRight();
             }
 
             if (y + TOLERANCE  < oldY) {
-                listener.onUp();
+                listener.onInputUp();
             }
 
             if (y - TOLERANCE > oldY) {
-                listener.onDown();
+                listener.onInputDown();
             }
         }
 
@@ -44,9 +44,9 @@ public class InputGestureProcess {
     }
 
     public interface Listener {
-        void onDown();
-        void onUp();
-        void onRight();
-        void onLeft();
+        void onInputDown();
+        void onInputUp();
+        void onInputRight();
+        void onInputLeft();
     }
 }

@@ -16,7 +16,7 @@ public class GameLoop {
     private boolean isRunning = true;
     private LoopListener loopListener;
     private Activity activity;
-    private int loopCount;
+
 
     public GameLoop(LoopListener loopListener, Activity activity) {
         this.loopListener = loopListener;
@@ -31,13 +31,7 @@ public class GameLoop {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            loopCount++;
-                            if(loopCount >= 10) {
-                                loopCount = 0;
-                                loopListener.onGravityLoop();
-                            }
-
-                            loopListener.onLoop();
+                        loopListener.onLoop();
                         }
                     });
                 }
@@ -59,6 +53,5 @@ public class GameLoop {
 
     public interface LoopListener {
         void onLoop();
-        void onGravityLoop();
     }
 }

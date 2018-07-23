@@ -26,7 +26,8 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
         gameView = (FrameLayout) root.findViewById(R.id.gameView);
         gameLoop = new GameLoop(this, getActivity());
         drawnSchene = new DrawnSchene(getContext());
-        gameRulesProcess =  new GameRulesProcess(this);
+        gameRulesProcess = new GameRulesProcess(this);
+        gameRulesProcess.processGame();
 
         return root;
     }
@@ -43,27 +44,22 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
     }
 
     @Override
-    public void onGravityLoop() {
-        gameRulesProcess.processGravity();
-    }
-
-    @Override
-    public void onDown() {
+    public void onInputDown() {
         gameRulesProcess.processInputDown();
     }
 
     @Override
-    public void onUp() {
+    public void onInputUp() {
         gameRulesProcess.processInputUp();
     }
 
     @Override
-    public void onRight() {
+    public void onInputRight() {
         gameRulesProcess.processInputRight();
     }
 
     @Override
-    public void onLeft() {
+    public void onInputLeft() {
         gameRulesProcess.processInputLeft();
     }
 

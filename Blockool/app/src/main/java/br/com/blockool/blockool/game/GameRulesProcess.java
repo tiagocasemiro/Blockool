@@ -1,6 +1,7 @@
 package br.com.blockool.blockool.game;
 
 import br.com.blockool.blockool.entity.Block;
+import br.com.blockool.blockool.entity.Piece;
 import br.com.blockool.blockool.entity.Scene;
 
 /**
@@ -8,76 +9,84 @@ import br.com.blockool.blockool.entity.Scene;
  */
 
 public class GameRulesProcess {
-    private Block[][] blocks;
     private Scene scene;
     private SceneListener sceneListener;
-
-    int selectedLinePosition;
-    int selectedColumPosition;
+    private Piece piece;
+    private GameManeger gameManeger;
 
     public GameRulesProcess(SceneListener sceneListener) {
         this.sceneListener = sceneListener;
         this.scene = new Scene();
-
-        Block block = new Block();
-        block.setColor(Block.Color.BLUE);
-        blocks = new Block[20][10];
-        blocks[selectedLinePosition][selectedColumPosition] = block;
-
-        for(int linha = 1; linha < 20; linha++) {
-            for(int coluna = 1; coluna < 10; coluna++) {
-                blocks[linha][coluna] = new Block();
-            }
-        }
-        scene.setBlocks(blocks);
+        this.gameManeger = new GameManeger();
+        this.piece = newRandonPiece();
+        this.gameManeger.putPieceOnBlocks(piece);
+        this.scene.setBlocks(gameManeger.getBlocks());
     }
 
     public void processInputRight() {
-        if(selectedColumPosition + 1 < 10) {
-            chageBlockPosition(selectedLinePosition, selectedColumPosition, selectedLinePosition, ++selectedColumPosition);
+        if(piece.getColum() + 1 < 10) {
+            Integer line = new Integer(piece.getLine());
+            Integer oldColum =  piece.getColum();
+            Integer newColum = piece.toIncreaseColum();
+
+            gameManeger.changeBlockPosition((line - 2), oldColum, (line - 2), newColum);
+            gameManeger.changeBlockPosition((line - 1), oldColum, (line - 1), newColum);
+            gameManeger.changeBlockPosition(line, oldColum, line, newColum);
             sceneListener.onScene(scene);
         }
     }
 
     public void processInputLeft() {
-        if(selectedColumPosition - 1 >= 0) {
-            chageBlockPosition(selectedLinePosition, selectedColumPosition, selectedLinePosition, --selectedColumPosition);
+        if(piece.getColum() - 1 >= 0) {
+            Integer line = new Integer(piece.getLine());
+            Integer oldColum = piece.getColum();
+            Integer newColum = piece.toDecreaseColum();
+
+            gameManeger.changeBlockPosition((line - 2), oldColum, (line - 2), newColum);
+            gameManeger.changeBlockPosition((line - 1), oldColum, (line - 1), newColum);
+            gameManeger.changeBlockPosition(line, oldColum, line, newColum);
             sceneListener.onScene(scene);
         }
     }
 
     public void processInputUp() {
-        if(selectedLinePosition - 1 >= 0) {
-            chageBlockPosition(selectedLinePosition, selectedColumPosition, --selectedLinePosition, selectedColumPosition);
-            sceneListener.onScene(scene);
-        }
+        Integer colum = piece.getColum();
+        Integer line = piece.getLine();
+
+        gameManeger.changeBlockPosition((line - 2), colum, (line - 1), colum);
+        gameManeger.changeBlockPosition((line - 1), colum, line, colum);
+
+        sceneListener.onScene(scene);
     }
 
     public void processInputDown() {
-        if(selectedLinePosition + 1 < 20) {
-            chageBlockPosition(selectedLinePosition, selectedColumPosition, ++selectedLinePosition, selectedColumPosition);
+        if(piece.getLine() + 1 < 20) {
+            Integer colum = piece.getColum();
+            Integer oldLine = piece.getLine();
+            Integer newLine = piece.toIncreaseLine();
+
+            gameManeger.changeBlockPosition(oldLine, colum, newLine, colum);
+            gameManeger.changeBlockPosition((oldLine - 1), colum, (newLine - 1), colum);
+            gameManeger.changeBlockPosition((oldLine - 2), colum, (newLine - 2), colum);
             sceneListener.onScene(scene);
         }
     }
 
     public void processGame() {
-        //sceneListener.onScene(scene);
-    }
-
-    public void processGravity() {
-        //sceneListener.onScene(scene);
-    }
-
-    private void chageBlockPosition(int initialLine, int initialColum, int finalLine, int finalColum)  {
-       if(initialLine >= 0 && initialLine < 20 && finalLine >= 0 && finalLine < 20 && initialColum >= 0 && initialColum < 10 && finalColum >= 0 && finalColum < 10 ) {
-           Block temporaryFinalBlock = blocks[finalLine][finalColum];
-           Block temporaryInitialBlock = blocks[initialLine][initialColum];
-           blocks[finalLine][finalColum] = temporaryInitialBlock;
-           blocks[initialLine][initialColum] = temporaryFinalBlock;
-       }
+        sceneListener.onScene(scene);
     }
 
     public interface SceneListener {
         void onScene(Scene scene);
+    }
+
+    private Piece newRandonPiece() {
+        Piece piece = new Piece();
+        piece.setPosition(gameManeger.DEFAULT_X, gameManeger.DEFAULT_Y);
+        piece.setTop(new Block());
+        piece.setMedium(new Block());
+        piece.setBottom(new Block());
+
+        return piece;
     }
 }
