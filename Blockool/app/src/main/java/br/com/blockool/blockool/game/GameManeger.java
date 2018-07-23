@@ -11,15 +11,11 @@ public class GameManeger {
     private Block[][] blocks;
     public final int DEFAULT_X = 4;
     public final int DEFAULT_Y = 2;
+    private final int NUMBER_COLUNS = 10;
+    private final int NUMBER_LINES = 20;
 
     public GameManeger() {
-        blocks = new Block[20][10];
-
-        for(int linha = 0; linha < 20; linha++) {
-            for(int coluna = 0; coluna < 10; coluna++) {
-                blocks[linha][coluna] = null;
-            }
-        }
+        blocks = new Block[NUMBER_LINES][NUMBER_COLUNS];
     }
 
     public Block[][] getBlocks() {
@@ -40,5 +36,17 @@ public class GameManeger {
         blocks[(line - 2)][DEFAULT_X] = piece.getTop();
         blocks[(line - 1)][DEFAULT_X] = piece.getMedium();
         blocks[line][DEFAULT_X] = piece.getBottom();
+    }
+
+    public boolean canMoveToRight(Piece piece) {
+        return piece.getColum() + 1 < NUMBER_COLUNS && blocks[piece.getLine()][piece.getColum() + 1] == null;
+    }
+
+    public boolean canMoveToLeft(Piece piece) {
+        return piece.getColum() - 1 >= 0 && blocks[piece.getLine()][piece.getColum() - 1] == null;
+    }
+
+    public boolean canMoveToDown(Piece piece) {
+        return piece.getLine() + 1 < NUMBER_LINES && blocks[piece.getLine() + 1][piece.getColum()] == null;
     }
 }

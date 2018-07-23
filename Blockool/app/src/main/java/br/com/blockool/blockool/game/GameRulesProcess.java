@@ -24,7 +24,7 @@ public class GameRulesProcess {
     }
 
     public void processInputRight() {
-        if(piece.getColum() + 1 < 10) {
+        if(gameManeger.canMoveToRight(piece)) {
             Integer line = new Integer(piece.getLine());
             Integer oldColum =  piece.getColum();
             Integer newColum = piece.toIncreaseColum();
@@ -37,7 +37,7 @@ public class GameRulesProcess {
     }
 
     public void processInputLeft() {
-        if(piece.getColum() - 1 >= 0) {
+        if(gameManeger.canMoveToLeft(piece)) {
             Integer line = new Integer(piece.getLine());
             Integer oldColum = piece.getColum();
             Integer newColum = piece.toDecreaseColum();
@@ -60,7 +60,7 @@ public class GameRulesProcess {
     }
 
     public void processInputDown() {
-        if(piece.getLine() + 1 < 20) {
+        if(gameManeger.canMoveToDown(piece)) {
             Integer colum = piece.getColum();
             Integer oldLine = piece.getLine();
             Integer newLine = piece.toIncreaseLine();

@@ -17,7 +17,6 @@ public class GameLoop {
     private LoopListener loopListener;
     private Activity activity;
 
-
     public GameLoop(LoopListener loopListener, Activity activity) {
         this.loopListener = loopListener;
         this.activity = activity;
