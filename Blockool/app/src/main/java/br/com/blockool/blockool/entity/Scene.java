@@ -7,6 +7,11 @@ package br.com.blockool.blockool.entity;
 public class Scene {
     private Block[][] blocks;
     private Integer point;
+    private Boolean isRunning;
+
+    public Scene() {
+        this.isRunning = true;
+    }
 
     public Block[][] getBlocks() {
         return blocks;
@@ -22,5 +27,13 @@ public class Scene {
 
     public void setPoint(Integer point) {
         this.point = point;
+    }
+
+    public Boolean isGameRuuning() {
+        return isRunning;
+    }
+
+    public void gameOver() {
+        isRunning = false;
     }
 }

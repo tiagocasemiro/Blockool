@@ -1,5 +1,7 @@
 package br.com.blockool.blockool.game;
 
+import android.widget.Toast;
+
 import br.com.blockool.blockool.entity.Block;
 import br.com.blockool.blockool.entity.Piece;
 import br.com.blockool.blockool.entity.Scene;
@@ -23,7 +25,7 @@ public class GameRulesProcess {
         this.scene.setBlocks(gameManeger.getBlocks());
     }
 
-    public void processInputRight() {
+    public void processRight() {
         if(gameManeger.canMoveToRight(piece)) {
             Integer line = new Integer(piece.getLine());
             Integer oldColum =  piece.getColum();
@@ -36,7 +38,7 @@ public class GameRulesProcess {
         }
     }
 
-    public void processInputLeft() {
+    public void processLeft() {
         if(gameManeger.canMoveToLeft(piece)) {
             Integer line = new Integer(piece.getLine());
             Integer oldColum = piece.getColum();
@@ -49,7 +51,7 @@ public class GameRulesProcess {
         }
     }
 
-    public void processInputUp() {
+    public void processUp() {
         Integer colum = piece.getColum();
         Integer line = piece.getLine();
 
@@ -59,7 +61,7 @@ public class GameRulesProcess {
         sceneListener.onScene(scene);
     }
 
-    public void processInputDown() {
+    public void processDown() {
         if(gameManeger.canMoveToDown(piece)) {
             Integer colum = piece.getColum();
             Integer oldLine = piece.getLine();
@@ -69,6 +71,15 @@ public class GameRulesProcess {
             gameManeger.changeBlockPosition((oldLine - 1), colum, (newLine - 1), colum);
             gameManeger.changeBlockPosition((oldLine - 2), colum, (newLine - 2), colum);
             sceneListener.onScene(scene);
+        } else {
+            if(piece.getLine() == 2) {
+                scene.gameOver();
+                sceneListener.onGameOver();
+            } else {
+                this.piece = newRandonPiece();
+                this.gameManeger.putPieceOnBlocks(piece);
+                this.scene.setBlocks(gameManeger.getBlocks());
+            }
         }
     }
 
@@ -78,6 +89,7 @@ public class GameRulesProcess {
 
     public interface SceneListener {
         void onScene(Scene scene);
+        void onGameOver();
     }
 
     private Piece newRandonPiece() {

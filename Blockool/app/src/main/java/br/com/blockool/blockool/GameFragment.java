@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import br.com.blockool.blockool.entity.Scene;
 import br.com.blockool.blockool.game.DrawnSchene;
@@ -40,33 +41,43 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
 
     @Override
     public void onLoop() {
+        gameRulesProcess.processDown();
         gameRulesProcess.processGame();
     }
 
     @Override
     public void onInputDown() {
-        gameRulesProcess.processInputDown();
+        gameRulesProcess.processDown();
     }
 
     @Override
     public void onInputUp() {
-        gameRulesProcess.processInputUp();
+        gameRulesProcess.processUp();
     }
 
     @Override
     public void onInputRight() {
-        gameRulesProcess.processInputRight();
+        gameRulesProcess.processRight();
     }
 
     @Override
     public void onInputLeft() {
-        gameRulesProcess.processInputLeft();
+        gameRulesProcess.processLeft();
     }
 
     @Override
     public void onScene(Scene scene) {
-        View view = drawnSchene.getSchene(scene.getBlocks());
-        gameView.removeAllViews();
-        gameView.addView(view);
+        if(scene.isGameRuuning()) {
+            View view = drawnSchene.getSchene(scene.getBlocks());
+            gameView.removeAllViews();
+            gameView.addView(view);
+        }
+    }
+
+    @Override
+    public void onGameOver() {
+        gameLoop.pause();
+        gameLoop.stop();
+        Toast.makeText(getContext(), "GAME OVER", Toast.LENGTH_LONG).show();
     }
 }

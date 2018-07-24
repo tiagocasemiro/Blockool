@@ -35,7 +35,7 @@ public class GameLoop {
                     });
                 }
             }
-        }, 100, 100);
+        }, 500, 500);
     }
 
     public void resume() {
@@ -48,6 +48,7 @@ public class GameLoop {
 
     public void stop() {
         timer.cancel();
+        timer.purge();
     }
 
     public interface LoopListener {
