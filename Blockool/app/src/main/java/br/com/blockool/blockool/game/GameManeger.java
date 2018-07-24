@@ -13,9 +13,11 @@ public class GameManeger {
     public final int DEFAULT_Y = 2;
     private final int NUMBER_COLUNS = 10;
     private final int NUMBER_LINES = 20;
+    private MoveDownListener moveDownListener;
 
-    public GameManeger() {
-        blocks = new Block[NUMBER_LINES][NUMBER_COLUNS];
+    public GameManeger(MoveDownListener moveDownListener) {
+        this.moveDownListener = moveDownListener;
+        this.blocks = new Block[NUMBER_LINES][NUMBER_COLUNS];
     }
 
     public Block[][] getBlocks() {
@@ -46,7 +48,28 @@ public class GameManeger {
         return piece.getColum() - 1 >= 0 && blocks[piece.getLine()][piece.getColum() - 1] == null;
     }
 
-    public boolean canMoveToDown(Piece piece) {
-        return piece.getLine() + 1 < NUMBER_LINES && blocks[piece.getLine() + 1][piece.getColum()] == null;
+    public void canMoveToDown(Piece piece) {
+        if(piece.getLine() + 1 < NUMBER_LINES && blocks[piece.getLine() + 1][piece.getColum()] == null) {
+            moveDownListener.moveToDown();
+        } else {
+            if(piece.getLine() == DEFAULT_Y) {
+                moveDownListener.gameOver();
+            }  else if(haveCombinationBlocks()) {
+                moveDownListener.dropCombinationBlocks();
+            } else {
+                moveDownListener.newPieceOnGame();
+            }
+        }
+    }
+
+    private boolean haveCombinationBlocks() {
+        return Boolean.FALSE;
+    }
+
+    public interface MoveDownListener {
+        void moveToDown();
+        void newPieceOnGame();
+        void gameOver();
+        void dropCombinationBlocks();
     }
 }
