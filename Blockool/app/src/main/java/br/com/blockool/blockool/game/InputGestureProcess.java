@@ -25,20 +25,16 @@ public class InputGestureProcess {
             if (x + TOLERANCE < oldX) {
                 listener.onInputLeft();
             }
-
             if (x - TOLERANCE > oldX) {
                 listener.onInputRight();
             }
-
             if (y + TOLERANCE  < oldY) {
                 listener.onInputUp();
             }
-
             if (y - TOLERANCE > oldY) {
                 listener.onInputDown();
             }
         }
-
         oldY = null;
         oldX = null;
     }

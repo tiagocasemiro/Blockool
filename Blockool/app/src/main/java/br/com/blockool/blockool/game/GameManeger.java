@@ -1,6 +1,10 @@
 package br.com.blockool.blockool.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.blockool.blockool.entity.Block;
+import br.com.blockool.blockool.entity.Combination;
 import br.com.blockool.blockool.entity.Piece;
 
 /**
@@ -48,21 +52,117 @@ public class GameManeger {
         return piece.getColum() - 1 >= 0 && blocks[piece.getLine()][piece.getColum() - 1] == null;
     }
 
-    public void canMoveToDown(Piece piece) {
+    public void moveToDown(Piece piece) {
         if(piece.getLine() + 1 < NUMBER_LINES && blocks[piece.getLine() + 1][piece.getColum()] == null) {
             moveDownListener.moveToDown();
         } else {
-            if(piece.getLine() == DEFAULT_Y) {
+            if(haveCombination()) {
+                regroupBlocks();
+            } else if(piece.getLine() == DEFAULT_Y) {
                 moveDownListener.gameOver();
-            }  else if(haveCombinationBlocks()) {
-                moveDownListener.dropCombinationBlocks();
             } else {
                 moveDownListener.newPieceOnGame();
             }
         }
     }
 
-    private boolean haveCombinationBlocks() {
+    public boolean haveCombination() {
+        List<Combination> combinations = new ArrayList<Combination>();
+
+        for(int linha = 0; linha < 20; linha++) {
+            for(int coluna = 0; coluna < 10; coluna++) {
+                Block current = blocks[linha][coluna];
+
+                //direita
+                if(coluna < (NUMBER_COLUNS - 2)) {
+                    if (compareBlocks(current, blocks[linha][(coluna + 1)])) {
+                        if (compareBlocks(current, blocks[linha][(coluna + 2)])){
+                            Combination combination = new Combination();
+                            combination.add(current, linha, coluna);
+                            combination.add(blocks[linha][(coluna + 1)], linha, (coluna + 1));
+                            combination.add(blocks[linha][(coluna + 2)], linha, (coluna + 2));
+                            combinations.add(combination);
+                        }
+                    }
+                }
+
+                //baixo
+                if(linha < (NUMBER_LINES - 2)) {
+                    if (compareBlocks(current, blocks[linha + 1][coluna])) {
+                        if (compareBlocks(current, blocks[linha + 2][coluna])){
+                            Combination combination = new Combination();
+                            combination.add(current, linha, coluna);
+                            combination.add(blocks[(linha + 1)][coluna], (linha + 1), coluna);
+                            combination.add(blocks[(linha + 2)][coluna], (linha + 2), coluna);
+                            combinations.add(combination);
+                        }
+                    }
+                }
+
+                //esquerda
+                if(coluna > 1) {
+                    if (compareBlocks(current, blocks[linha][(coluna - 1)])) {
+                        if (compareBlocks(current, blocks[linha][(coluna - 2)])){
+                            Combination combination = new Combination();
+                            combination.add(current, linha, coluna);
+                            combination.add(blocks[linha][(coluna - 1)], linha, (coluna - 1));
+                            combination.add(blocks[linha][(coluna - 2)], linha, (coluna - 2));
+                            combinations.add(combination);
+                        }
+                    }
+                }
+
+                //cima
+                if(linha > 1) {
+                    if (compareBlocks(current, blocks[linha - 1][coluna])) {
+                        if (compareBlocks(current, blocks[linha - 2][coluna])){
+                            Combination combination = new Combination();
+                            combination.add(current, linha, coluna);
+                            combination.add(blocks[(linha - 1)][coluna], (linha - 1), coluna);
+                            combination.add(blocks[(linha - 2)][coluna], (linha - 2), coluna);
+                            combinations.add(combination);
+                        }
+                    }
+                }
+            }
+        }
+
+        for (Combination combination: combinations) {
+            combination.getAllPosition(new Combination.All.Position() {
+                @Override
+                public void on(int line, int colum) {
+                    blocks[line][colum] = null;
+                }
+            });
+        }
+
+        return combinations.size() > 0;
+    }
+
+    public void regroupBlocks() {
+        for(int colum = 0; colum < NUMBER_COLUNS; colum++) {
+            for(int line = (NUMBER_LINES - 1); line >= 0; line--) {
+                Block current = blocks[line][colum];
+                helpLoop : for(int lineHelp = line - 1; lineHelp >= 0; lineHelp--) {
+                    Block currentHelp = blocks[lineHelp][colum];
+                    if(current == null ) {
+                        if(currentHelp != null) {
+                            changeBlockPosition(lineHelp, colum, line, colum);
+                            break helpLoop;
+                        }
+                    } else {
+                        break helpLoop;
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean compareBlocks(Block current, Block neighbors) {
+        if(current != null && neighbors != null) {
+            return current.getColor().equals(neighbors.getColor());
+        }
+
         return Boolean.FALSE;
     }
 
@@ -70,6 +170,5 @@ public class GameManeger {
         void moveToDown();
         void newPieceOnGame();
         void gameOver();
-        void dropCombinationBlocks();
     }
 }

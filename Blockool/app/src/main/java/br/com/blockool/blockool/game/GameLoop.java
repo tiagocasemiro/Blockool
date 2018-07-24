@@ -1,8 +1,6 @@
 package br.com.blockool.blockool.game;
 
 import android.app.Activity;
-import android.os.Handler;
-import android.view.View;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,7 +33,7 @@ public class GameLoop {
                     });
                 }
             }
-        }, 500, 500);
+        }, 1000, 1000);
     }
 
     public void resume() {

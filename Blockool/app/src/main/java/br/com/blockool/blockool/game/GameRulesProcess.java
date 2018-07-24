@@ -1,7 +1,5 @@
 package br.com.blockool.blockool.game;
 
-import android.widget.Toast;
-
 import br.com.blockool.blockool.entity.Block;
 import br.com.blockool.blockool.entity.Piece;
 import br.com.blockool.blockool.entity.Scene;
@@ -65,7 +63,7 @@ public class GameRulesProcess implements GameManeger.MoveDownListener {
 
     public void processDown() {
         if(scene.isGameRuuning()) {
-            gameManeger.canMoveToDown(piece);
+            gameManeger.moveToDown(piece);
         }
     }
 
@@ -99,11 +97,6 @@ public class GameRulesProcess implements GameManeger.MoveDownListener {
     public void gameOver() {
         scene.gameOver();
         sceneListener.onGameOver();
-    }
-
-    @Override
-    public void dropCombinationBlocks() {
-
     }
 
     private Piece newRandonPiece() {

@@ -13,10 +13,6 @@ public class Block {
         color = randomColor();
     }
 
-    public Block(Color color) {
-        this.color = color;
-    }
-
     public Color getColor() {
         return color;
     }
