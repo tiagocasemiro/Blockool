@@ -13,6 +13,7 @@ import br.com.blockool.blockool.entity.Block;
 
 public class DrawnSchene {
     private Context context;
+    private final Integer margin = 3;
 
     public DrawnSchene(Context context) {
         this.context = context;
@@ -23,7 +24,7 @@ public class DrawnSchene {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f);
         container.setLayoutParams(layoutParams);
         container.setOrientation(LinearLayout.VERTICAL);
-        container.setPadding(1,1,1,1);
+        container.setPadding(margin,margin,margin,margin);
 
         for (Block[] blocks: allBlocks){
             LinearLayout line =  new LinearLayout(context);
@@ -32,7 +33,7 @@ public class DrawnSchene {
             for(Block block: blocks) {
                 View position = new View(context);
                 layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f);
-                layoutParams.setMargins(1, 1, 1, 1);
+                layoutParams.setMargins(margin, margin, margin, margin);
                 position.setLayoutParams(layoutParams);
                 drawn(block, position);
                 line.addView(position);
@@ -47,22 +48,22 @@ public class DrawnSchene {
         if(blockObject != null && blockObject.getColor() != null) {
             switch (blockObject.getColor()) {
                 case BLUE:
-                    blockView.setBackgroundColor(Color.BLUE);
+                    blockView.setBackgroundColor(Color.argb(255, 20,114, 254));
                     break;
                 case MAGENTA:
-                    blockView.setBackgroundColor(Color.MAGENTA);
+                    blockView.setBackgroundColor(Color.argb(255, 255,0, 191));
                     break;
                 case CYAN:
-                    blockView.setBackgroundColor(Color.CYAN);
+                    blockView.setBackgroundColor(Color.argb(255, 38,188, 234));
                     break;
                 case GREEN:
-                    blockView.setBackgroundColor(Color.GREEN);
+                    blockView.setBackgroundColor(Color.argb(255, 25,210, 45));
                     break;
                 case YELLOW:
-                    blockView.setBackgroundColor(Color.YELLOW);
+                    blockView.setBackgroundColor(Color.argb(255, 255,197, 31));
                     break;
                 case RED:
-                    blockView.setBackgroundColor(Color.RED);
+                    blockView.setBackgroundColor(Color.argb(255, 234,60, 14));
                     break;
             }
         } else {
