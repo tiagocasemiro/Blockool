@@ -9,6 +9,6 @@
     tools:context="br.com.blockool.blockool.MainActivity">
     <FrameLayout
         android:id="@+id/game"
-        android:layout_width="250dp"
-        android:layout_height="500dp"/>
+        android:layout_width="@dimen/width_game"
+        android:layout_height="@dimen/height_game"/>
 </LinearLayout>

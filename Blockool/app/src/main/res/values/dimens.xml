@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="width_game">250dp</dimen>
+    <dimen name="height_game">500dp</dimen>
+
+    <dimen name="line_game">3dp</dimen>
+</resources>

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import br.com.blockool.blockool.R;
 import br.com.blockool.blockool.entity.Block;
 
 /**
@@ -13,10 +14,11 @@ import br.com.blockool.blockool.entity.Block;
 
 public class DrawnSchene {
     private Context context;
-    private final Integer margin = 3;
+    private final Integer margin;
 
     public DrawnSchene(Context context) {
         this.context = context;
+        margin = (int) context.getResources().getDimension(R.dimen.line_game);
     }
 
     public View getSchene(Block[][] allBlocks) {
@@ -67,7 +69,7 @@ public class DrawnSchene {
                     break;
             }
         } else {
-            blockView.setBackgroundColor(Color.TRANSPARENT);
+            blockView.setBackgroundColor(Color.argb(20, 70,69, 80));
         }
     }
 }
