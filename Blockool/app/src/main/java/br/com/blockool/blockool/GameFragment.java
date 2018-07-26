@@ -29,6 +29,7 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
         drawnSchene = new DrawnSchene(getContext());
         gameRulesProcess = new GameRulesProcess(this);
         gameRulesProcess.processGame();
+        gameLoop.init();
 
         return root;
     }
@@ -37,6 +38,12 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
     public void onResume() {
         super.onResume();
         gameLoop.start();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        gameLoop.pause();
     }
 
     @Override

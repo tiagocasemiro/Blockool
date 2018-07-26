@@ -11,7 +11,7 @@ import java.util.TimerTask;
  */
 public class GameLoop {
     private Timer timer;
-    private boolean isRunning = true;
+    private boolean isRunning = false;
     private LoopListener loopListener;
     private Activity activity;
 
@@ -20,7 +20,7 @@ public class GameLoop {
         this.activity = activity;
     }
 
-    public void start() {
+    public void init() {
         timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
@@ -36,7 +36,7 @@ public class GameLoop {
         }, 1000, 1000);
     }
 
-    public void resume() {
+    public void start() {
         isRunning = true;
     }
 

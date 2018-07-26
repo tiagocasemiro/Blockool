@@ -28,7 +28,7 @@ public class GameManeger {
         return blocks;
     }
 
-    public void changeBlockPosition(int initialLine, int initialColum, int finalLine, int finalColum)  {
+    public void changeBlockPosition(int initialLine, int initialColum, int finalLine, int finalColum) {
         if(initialLine >= 0 && initialLine < 20 && finalLine >= 0 && finalLine < 20 && initialColum >= 0 && initialColum < 10 && finalColum >= 0 && finalColum < 10 ) {
             Block temporaryFinalBlock = blocks[finalLine][finalColum];
             Block temporaryInitialBlock = blocks[initialLine][initialColum];
