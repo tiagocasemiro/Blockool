@@ -86,14 +86,40 @@ public class GameManeger {
                     }
                 }
 
+                //inferior direito
+                if(coluna < (NUMBER_COLUNS - 2) && linha < (NUMBER_LINES - 2)) {
+                    if (compareBlocks(current, blocks[(linha + 1)][(coluna + 1)])) {
+                        if (compareBlocks(current, blocks[(linha + 2)][(coluna + 2)])){
+                            Combination combination = new Combination();
+                            combination.add(current, linha, coluna);
+                            combination.add(blocks[(linha + 1)][(coluna + 1)], (linha + 1), (coluna + 1));
+                            combination.add(blocks[(linha + 2)][(coluna + 2)], (linha + 2), (coluna + 2));
+                            combinations.add(combination);
+                        }
+                    }
+                }
+
                 //baixo
                 if(linha < (NUMBER_LINES - 2)) {
-                    if (compareBlocks(current, blocks[linha + 1][coluna])) {
-                        if (compareBlocks(current, blocks[linha + 2][coluna])){
+                    if (compareBlocks(current, blocks[(linha + 1)][coluna])) {
+                        if (compareBlocks(current, blocks[(linha + 2)][coluna])){
                             Combination combination = new Combination();
                             combination.add(current, linha, coluna);
                             combination.add(blocks[(linha + 1)][coluna], (linha + 1), coluna);
                             combination.add(blocks[(linha + 2)][coluna], (linha + 2), coluna);
+                            combinations.add(combination);
+                        }
+                    }
+                }
+
+                //inferior esquerdo
+                if(coluna > 1 && linha < (NUMBER_LINES - 2)) {
+                    if (compareBlocks(current, blocks[(linha + 1)][(coluna - 1)])) {
+                        if (compareBlocks(current, blocks[(linha + 2)][(coluna - 2)])){
+                            Combination combination = new Combination();
+                            combination.add(current, linha, coluna);
+                            combination.add(blocks[(linha + 1)][(coluna - 1)], (linha + 1), (coluna - 1));
+                            combination.add(blocks[(linha + 2)][(coluna - 2)], (linha + 2), (coluna - 2));
                             combinations.add(combination);
                         }
                     }
@@ -112,6 +138,19 @@ public class GameManeger {
                     }
                 }
 
+                //superio esquerdo
+                if(linha > 1 && coluna > 1) {
+                    if (compareBlocks(current, blocks[(linha - 1)][(coluna - 1)])) {
+                        if (compareBlocks(current, blocks[(linha - 2)][(coluna - 2)])){
+                            Combination combination = new Combination();
+                            combination.add(current, linha, coluna);
+                            combination.add(blocks[(linha - 1)][(coluna - 1)], (linha - 1), (coluna - 1));
+                            combination.add(blocks[(linha - 2)][(coluna - 2)], (linha - 2), (coluna - 2));
+                            combinations.add(combination);
+                        }
+                    }
+                }
+
                 //cima
                 if(linha > 1) {
                     if (compareBlocks(current, blocks[linha - 1][coluna])) {
@@ -120,6 +159,19 @@ public class GameManeger {
                             combination.add(current, linha, coluna);
                             combination.add(blocks[(linha - 1)][coluna], (linha - 1), coluna);
                             combination.add(blocks[(linha - 2)][coluna], (linha - 2), coluna);
+                            combinations.add(combination);
+                        }
+                    }
+                }
+
+                //Superior direito
+                if(linha > 1 && coluna < (NUMBER_COLUNS - 2)) {
+                    if (compareBlocks(current, blocks[(linha - 1)][(coluna + 1)])) {
+                        if (compareBlocks(current, blocks[(linha - 2)][(coluna + 2)])){
+                            Combination combination = new Combination();
+                            combination.add(current, linha, coluna);
+                            combination.add(blocks[(linha - 1)][(coluna + 1)], (linha - 1), (coluna + 1));
+                            combination.add(blocks[(linha - 2)][(coluna + 2)], (linha - 2), (coluna + 2));
                             combinations.add(combination);
                         }
                     }
