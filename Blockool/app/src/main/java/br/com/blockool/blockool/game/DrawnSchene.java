@@ -46,7 +46,7 @@ public class DrawnSchene {
         return container;
     }
 
-    private void drawn(Block blockObject, View blockView) {
+    public void drawn(Block blockObject, View blockView) {
         if(blockObject != null && blockObject.getColor() != null) {
             switch (blockObject.getColor()) {
                 case BLUE:

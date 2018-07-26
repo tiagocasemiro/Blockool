@@ -19,6 +19,16 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
     private DrawnSchene drawnSchene;
     private FrameLayout gameView;
     private GameRulesProcess gameRulesProcess;
+    private GameRulesProcess.GameListener gameListener;
+
+    @Override
+    public void setArguments(Bundle bundle) {
+        super.setArguments(bundle);
+
+        if (bundle != null) {
+            gameListener = (GameRulesProcess.GameListener) bundle.getSerializable(MainActivity.LISTENER);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -27,7 +37,7 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
         gameView = (FrameLayout) root.findViewById(R.id.gameView);
         gameLoop = new GameLoop(this, getActivity());
         drawnSchene = new DrawnSchene(getContext());
-        gameRulesProcess = new GameRulesProcess(this);
+        gameRulesProcess = new GameRulesProcess(this, gameListener);
         gameRulesProcess.processGame();
         gameLoop.init();
 
@@ -48,7 +58,7 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
 
     @Override
     public void onLoop() {
-        gameRulesProcess.processDown();
+        gameRulesProcess.processGravity();
         gameRulesProcess.processGame();
     }
 
@@ -73,6 +83,16 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
     }
 
     @Override
+    public void onPauseGame() {
+        gameLoop.pause();
+    }
+
+    @Override
+    public void onResumeGame() {
+        gameLoop.start();
+    }
+
+    @Override
     public void onScene(Scene scene) {
         if(scene.isGameRuuning()) {
             View view = drawnSchene.getSchene(scene.getBlocks());
@@ -87,4 +107,8 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
         gameLoop.stop();
         Toast.makeText(getContext(), "GAME OVER", Toast.LENGTH_LONG).show();
     }
-}
+
+    public boolean isPlaying() {
+        return gameLoop.isRunning();
+    }
+ }

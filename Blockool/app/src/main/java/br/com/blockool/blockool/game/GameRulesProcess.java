@@ -1,6 +1,9 @@
 package br.com.blockool.blockool.game;
 
+import java.io.Serializable;
+
 import br.com.blockool.blockool.entity.Block;
+import br.com.blockool.blockool.entity.Gravity;
 import br.com.blockool.blockool.entity.Piece;
 import br.com.blockool.blockool.entity.Scene;
 
@@ -11,16 +14,23 @@ import br.com.blockool.blockool.entity.Scene;
 public class GameRulesProcess implements GameManeger.MoveDownListener {
     private Scene scene;
     private SceneListener sceneListener;
+    private GameListener gameListener;
     private Piece piece;
+    private Piece nextPiece;
     private GameManeger gameManeger;
+    private Gravity gravity;
 
-    public GameRulesProcess(SceneListener sceneListener) {
+    public GameRulesProcess(SceneListener sceneListener, GameListener gameListener) {
         this.sceneListener = sceneListener;
+        this.gameListener = gameListener;
         this.scene = new Scene();
-        this.gameManeger = new GameManeger(this);
+        this.gameManeger = new GameManeger(this, gameListener);
         this.piece = newRandonPiece();
+        this.nextPiece = newRandonPiece();
+        this.gameListener.onNextPiece(nextPiece);
         this.gameManeger.putPieceOnBlocks(piece);
         this.scene.setBlocks(gameManeger.getBlocks());
+        this.gravity = new Gravity();
     }
 
     public void processRight() {
@@ -67,9 +77,16 @@ public class GameRulesProcess implements GameManeger.MoveDownListener {
         }
     }
 
+    public void processGravity() {
+        if(scene.isGameRuuning()) {
+            gameManeger.gravityEffect(piece, gravity);
+        }
+    }
+
     public void processGame() {
         if(scene.isGameRuuning()) {
             sceneListener.onScene(scene);
+            gravity.processGravity();
         }
     }
 
@@ -88,7 +105,9 @@ public class GameRulesProcess implements GameManeger.MoveDownListener {
 
     @Override
     public void newPieceOnGame() {
-        this.piece = newRandonPiece();
+        this.piece = nextPiece;
+        this.nextPiece = newRandonPiece();
+        this.gameListener.onNextPiece(nextPiece);
         this.gameManeger.putPieceOnBlocks(piece);
         this.scene.setBlocks(gameManeger.getBlocks());
     }
@@ -112,5 +131,10 @@ public class GameRulesProcess implements GameManeger.MoveDownListener {
     public interface SceneListener {
         void onScene(Scene scene);
         void onGameOver();
+    }
+
+    public interface GameListener extends Serializable {
+        void onNextPiece(Piece piece);
+        void onScoreChange(int score, int level);
     }
 }

@@ -44,5 +44,7 @@ public class InputGestureProcess {
         void onInputUp();
         void onInputRight();
         void onInputLeft();
+        void onPauseGame();
+        void onResumeGame();
     }
 }

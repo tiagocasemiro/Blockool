@@ -5,6 +5,8 @@ import java.util.List;
 
 import br.com.blockool.blockool.entity.Block;
 import br.com.blockool.blockool.entity.Combination;
+import br.com.blockool.blockool.entity.Gravity;
+import br.com.blockool.blockool.entity.Level;
 import br.com.blockool.blockool.entity.Piece;
 
 /**
@@ -17,11 +19,16 @@ public class GameManeger {
     public final int DEFAULT_Y = 2;
     private final int NUMBER_COLUNS = 10;
     private final int NUMBER_LINES = 20;
+    private Level level;
     private MoveDownListener moveDownListener;
+    private GameRulesProcess.GameListener gameListener;
+    private int score;
 
-    public GameManeger(MoveDownListener moveDownListener) {
+    public GameManeger(MoveDownListener moveDownListener, GameRulesProcess.GameListener gameListener) {
         this.moveDownListener = moveDownListener;
+        this.gameListener = gameListener;
         this.blocks = new Block[NUMBER_LINES][NUMBER_COLUNS];
+        this.level = new Level();
     }
 
     public Block[][] getBlocks() {
@@ -65,6 +72,23 @@ public class GameManeger {
             }
         }
     }
+
+    public void gravityEffect(Piece piece, Gravity gravity) {
+        if(piece.getLine() + 1 < NUMBER_LINES && blocks[piece.getLine() + 1][piece.getColum()] == null) {
+            if(gravity.acelerationGravity(level)) {
+                moveDownListener.moveToDown();
+            }
+        } else {
+            if(haveCombination()) {
+                regroupBlocks();
+            } else if(piece.getLine() == DEFAULT_Y) {
+                moveDownListener.gameOver();
+            } else {
+                moveDownListener.newPieceOnGame();
+            }
+        }
+    }
+
 
     public boolean haveCombination() {
         List<Combination> combinations = new ArrayList<Combination>();
@@ -179,13 +203,22 @@ public class GameManeger {
             }
         }
 
+        int partialScore = 0;
+
         for (Combination combination: combinations) {
+            partialScore = partialScore + combination.totalBlocks();
             combination.getAllPosition(new Combination.All.Position() {
                 @Override
                 public void on(int line, int colum) {
                     blocks[line][colum] = null;
                 }
             });
+        }
+
+        if(combinations.size() > 0) {
+            score = score + (partialScore / 2);
+            level.processScore(score);
+            gameListener.onScoreChange(score, level.label());
         }
 
         return combinations.size() > 0;

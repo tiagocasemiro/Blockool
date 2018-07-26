@@ -24,7 +24,10 @@ public class Combination {
             positionColum = "0" + positionColum;
         }
         String position = positionLine + positionColum;
-        blocks.put(position, block);
+
+        if(!blocks.containsKey(position)) {
+            blocks.put(position, block);
+        }
     }
 
     public void getAllPosition(All.Position all) {
@@ -35,6 +38,10 @@ public class Combination {
 
             all.on(Integer.parseInt(line),  Integer.parseInt(colum));
         }
+    }
+
+    public int totalBlocks() {
+        return blocks.size();
     }
 
     public interface All {

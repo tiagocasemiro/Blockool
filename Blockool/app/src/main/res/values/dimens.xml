@@ -2,6 +2,6 @@
 <resources>
     <dimen name="width_game">250dp</dimen>
     <dimen name="height_game">500dp</dimen>
-
-    <dimen name="line_game">3dp</dimen>
+    <dimen name="line_game">1dp</dimen>
+    <dimen name="dimen_box">25dp</dimen>
 </resources>

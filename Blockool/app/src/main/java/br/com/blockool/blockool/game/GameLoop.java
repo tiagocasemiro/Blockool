@@ -33,7 +33,7 @@ public class GameLoop {
                     });
                 }
             }
-        }, 1000, 1000);
+        }, 100, 100);
     }
 
     public void start() {
@@ -47,6 +47,10 @@ public class GameLoop {
     public void stop() {
         timer.cancel();
         timer.purge();
+    }
+
+    public boolean isRunning() {
+        return isRunning && timer != null;
     }
 
     public interface LoopListener {
