@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import br.com.blockool.blockool.entity.Piece;
+import br.com.blockool.blockool.game.Dialog;
 import br.com.blockool.blockool.game.DrawnScene;
 import br.com.blockool.blockool.game.GameRulesProcess;
 import br.com.blockool.blockool.game.InputGestureProcess;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements GameRulesProcess.
     private View nextBlockTop;
     private View nextBlockMedium;
     private View nextBlockBottom;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements GameRulesProcess.
         nextBlockBottom = findViewById(R.id.nextBlockBottom);
         fragmentManager = getSupportFragmentManager();
         gameFragment = new GameFragment();
+        dialog = new Dialog();
 
         inputGestureProcess = new InputGestureProcess(gameFragment);
         fragmentManager
@@ -52,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements GameRulesProcess.
             gameFragment.onResumeGame();
             ((ImageView) view).setImageResource(android.R.drawable.ic_media_pause);
         }
+
+        dialog.create(this).showGameOver();
     }
 
     @Override

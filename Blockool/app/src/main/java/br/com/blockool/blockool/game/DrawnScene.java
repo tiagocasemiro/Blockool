@@ -126,7 +126,7 @@ public class DrawnScene {
 
     public static void drawnGameOver(Block blockObject, View blockView) {
         if(blockObject != null && blockObject.getColor() != null) {
-            blockView.setBackgroundColor(Color.argb(255, 50,50, 50));
+            blockView.setBackgroundColor(Color.argb(255, 90,90, 90));
         } else {
             blockView.setBackgroundColor(Color.argb(20, 70,69, 80));
         }
