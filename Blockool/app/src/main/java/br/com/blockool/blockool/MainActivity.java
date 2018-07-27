@@ -74,10 +74,9 @@ public class MainActivity extends AppCompatActivity implements GameRulesProcess.
 
     @Override
     public void onNextPiece(Piece piece) {
-        DrawnScene drawnSchene = new DrawnScene(this);
-        drawnSchene.drawn(piece.getTop(), nextBlockTop);
-        drawnSchene.drawn(piece.getMedium(), nextBlockMedium);
-        drawnSchene.drawn(piece.getBottom(), nextBlockBottom);
+        DrawnScene.drawn(piece.getTop(), nextBlockTop);
+        DrawnScene.drawn(piece.getMedium(), nextBlockMedium);
+        DrawnScene.drawn(piece.getBottom(), nextBlockBottom);
     }
 
     @Override

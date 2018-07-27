@@ -20,7 +20,6 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
     private DrawnScene drawnSchene;
     private FrameLayout gameView;
     private GameRulesProcess gameRulesProcess;
-
     private GameRulesProcess.GameListener gameListener;
 
     @Override
@@ -39,7 +38,7 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
 
         gameView = (FrameLayout) root.findViewById(R.id.gameView);
         gameLoop = new GameLoop(this, getActivity());
-        drawnSchene = new DrawnScene(getContext());
+        drawnSchene = new DrawnScene(getContext(), gameView);
         gameRulesProcess = new GameRulesProcess(this, gameListener);
         gameRulesProcess.processGame();
         gameLoop.init();
@@ -97,11 +96,8 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
 
     @Override
     public void onScene(Scene scene) {
-        if(scene.isGameRuuning()) {
-            View view = drawnSchene.getScene(scene.getBlocks());
-            gameView.removeAllViews();
-            gameView.addView(view);
-        }
+        if(scene.isGameRuuning())
+           drawnSchene.getScene(scene.getBlocks());
     }
 
     @Override

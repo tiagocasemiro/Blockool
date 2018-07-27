@@ -3,6 +3,7 @@ package br.com.blockool.blockool.game;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import br.com.blockool.blockool.R;
@@ -16,10 +17,12 @@ public class DrawnScene {
     private Context context;
     private final Integer margin;
     private LinearLayout container;
+    private FrameLayout gameView;
 
-    public DrawnScene(Context context) {
+    public DrawnScene(Context context, FrameLayout gameView) {
         this.context = context;
         this.margin = (int) context.getResources().getDimension(R.dimen.line_game);
+        this.gameView = gameView;
     }
 
     public void initScene(Block[][] allBlocks) {
@@ -48,6 +51,9 @@ public class DrawnScene {
             container.addView(line);
             lineCount++;
         }
+
+        gameView.removeAllViews();
+        gameView.addView(container);
     }
 
     public void reDrawnScene(Block[][] allBlocks) {
@@ -71,16 +77,14 @@ public class DrawnScene {
         return Integer.parseInt(number);
     }
 
-    public View getScene(Block[][] allBlocks) {
+    public void getScene(Block[][] allBlocks) {
         if(container == null)
             initScene(allBlocks);
         else
             reDrawnScene(allBlocks);
-
-        return container;
     }
 
-    public void drawn(Block blockObject, View blockView) {
+    public static void drawn(Block blockObject, View blockView) {
         if(blockObject != null && blockObject.getColor() != null) {
             switch (blockObject.getColor()) {
                 case BLUE:
