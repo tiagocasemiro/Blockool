@@ -1,7 +1,5 @@
 package br.com.blockool.blockool.game;
 
-import java.io.Serializable;
-
 import br.com.blockool.blockool.entity.Block;
 import br.com.blockool.blockool.entity.Gravity;
 import br.com.blockool.blockool.entity.Piece;
@@ -133,7 +131,7 @@ public class GameRulesProcess implements GameManeger.MoveDownListener {
         void onGameOver();
     }
 
-    public interface GameListener extends Serializable {
+    public interface GameListener {
         void onNextPiece(Piece piece);
         void onScoreChange(int score, int level);
     }

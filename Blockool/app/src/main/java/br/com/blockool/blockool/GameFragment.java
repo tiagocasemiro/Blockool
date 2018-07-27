@@ -1,5 +1,6 @@
 package br.com.blockool.blockool;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -19,14 +20,16 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
     private DrawnSchene drawnSchene;
     private FrameLayout gameView;
     private GameRulesProcess gameRulesProcess;
+
     private GameRulesProcess.GameListener gameListener;
 
     @Override
-    public void setArguments(Bundle bundle) {
-        super.setArguments(bundle);
-
-        if (bundle != null) {
-            gameListener = (GameRulesProcess.GameListener) bundle.getSerializable(MainActivity.LISTENER);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            gameListener = (GameRulesProcess.GameListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement GameRulesProcess.GameListener ");
         }
     }
 

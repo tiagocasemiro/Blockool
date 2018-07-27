@@ -1,6 +1,7 @@
 package br.com.blockool.blockool;
 
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +15,7 @@ import br.com.blockool.blockool.game.DrawnSchene;
 import br.com.blockool.blockool.game.GameRulesProcess;
 import br.com.blockool.blockool.game.InputGestureProcess;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GameRulesProcess.GameListener{
     public static final String LISTENER = "LISTENER";
 
     private FragmentManager fragmentManager;
@@ -37,19 +38,7 @@ public class MainActivity extends AppCompatActivity {
         nextBlockBottom = findViewById(R.id.nextBlockBottom);
         fragmentManager = getSupportFragmentManager();
         gameFragment = new GameFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(LISTENER, new GameRulesProcess.GameListener(){
-            @Override
-            public void onNextPiece(Piece piece) {
-                nextPiece(piece);
-            }
 
-            @Override
-            public void onScoreChange(int score, int level) {
-                scoreChange(score, level);
-            }
-        });
-        gameFragment.setArguments(bundle);
         inputGestureProcess = new InputGestureProcess(gameFragment);
         fragmentManager
             .beginTransaction()
@@ -84,14 +73,16 @@ public class MainActivity extends AppCompatActivity {
         return super.onTouchEvent(event);
     }
 
-    public void nextPiece(Piece piece) {
+    @Override
+    public void onNextPiece(Piece piece) {
         DrawnSchene drawnSchene = new DrawnSchene(this);
         drawnSchene.drawn(piece.getTop(), nextBlockTop);
         drawnSchene.drawn(piece.getMedium(), nextBlockMedium);
         drawnSchene.drawn(piece.getBottom(), nextBlockBottom);
     }
 
-    public void scoreChange(int score, int level) {
+    @Override
+    public void onScoreChange(int score, int level) {
         this.score.setText(String.valueOf(score));
         this.level.setText(String.valueOf(level));
     }
