@@ -89,7 +89,6 @@ public class GameManeger {
         }
     }
 
-
     public boolean haveCombination() {
         List<Combination> combinations = new ArrayList<Combination>();
 

@@ -69,6 +69,19 @@ public class DrawnScene {
         }
     }
 
+    public void gameOverScene(Block[][] allBlocks) {
+        int lineCount = 0;
+        for (Block[] blocks: allBlocks){
+            int columCount = 0;
+            for(Block block: blocks) {
+                View position = container.findViewById(joinNumbers(lineCount, columCount));
+                drawnGameOver(block, position);
+                columCount++;
+            }
+            lineCount++;
+        }
+    }
+
     private int joinNumbers(int first, int second) {
         String firstNumber = String.valueOf(first);
         String secondnumber = String.valueOf(second);
@@ -106,6 +119,14 @@ public class DrawnScene {
                     blockView.setBackgroundColor(Color.argb(255, 234,60, 14));
                     break;
             }
+        } else {
+            blockView.setBackgroundColor(Color.argb(20, 70,69, 80));
+        }
+    }
+
+    public static void drawnGameOver(Block blockObject, View blockView) {
+        if(blockObject != null && blockObject.getColor() != null) {
+            blockView.setBackgroundColor(Color.argb(255, 50,50, 50));
         } else {
             blockView.setBackgroundColor(Color.argb(20, 70,69, 80));
         }

@@ -113,7 +113,8 @@ public class GameRulesProcess implements GameManeger.MoveDownListener {
     @Override
     public void gameOver() {
         scene.gameOver();
-        sceneListener.onGameOver();
+        sceneListener.onGameOver(scene);
+        gameListener.onGameOver(nextPiece);
     }
 
     private Piece newRandonPiece() {
@@ -128,11 +129,12 @@ public class GameRulesProcess implements GameManeger.MoveDownListener {
 
     public interface SceneListener {
         void onScene(Scene scene);
-        void onGameOver();
+        void onGameOver(Scene scene);
     }
 
     public interface GameListener {
         void onNextPiece(Piece piece);
+        void onGameOver(Piece piece);
         void onScoreChange(int score, int level);
     }
 }

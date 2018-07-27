@@ -87,6 +87,13 @@ public class MainActivity extends AppCompatActivity implements GameRulesProcess.
     }
 
     @Override
+    public void onGameOver(Piece piece) {
+        DrawnScene.drawnGameOver(piece.getTop(), nextBlockTop);
+        DrawnScene.drawnGameOver(piece.getMedium(), nextBlockMedium);
+        DrawnScene.drawnGameOver(piece.getBottom(), nextBlockBottom);
+    }
+
+    @Override
     public void onScoreChange(int score, int level) {
         this.score.setText(String.valueOf(score));
         this.level.setText(String.valueOf(level));

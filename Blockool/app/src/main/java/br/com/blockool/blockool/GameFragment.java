@@ -101,9 +101,11 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
     }
 
     @Override
-    public void onGameOver() {
+    public void onGameOver(Scene scene) {
         gameLoop.pause();
         gameLoop.stop();
+        drawnSchene.gameOverScene(scene.getBlocks());
+
         Toast.makeText(getContext(), "GAME OVER", Toast.LENGTH_LONG).show();
     }
 
