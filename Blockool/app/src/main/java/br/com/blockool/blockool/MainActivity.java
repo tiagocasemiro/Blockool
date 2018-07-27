@@ -1,7 +1,6 @@
 package br.com.blockool.blockool;
 
 import android.os.Bundle;
-import android.os.Parcel;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import br.com.blockool.blockool.entity.Piece;
-import br.com.blockool.blockool.game.DrawnSchene;
+import br.com.blockool.blockool.game.DrawnScene;
 import br.com.blockool.blockool.game.GameRulesProcess;
 import br.com.blockool.blockool.game.InputGestureProcess;
 
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements GameRulesProcess.
 
     @Override
     public void onNextPiece(Piece piece) {
-        DrawnSchene drawnSchene = new DrawnSchene(this);
+        DrawnScene drawnSchene = new DrawnScene(this);
         drawnSchene.drawn(piece.getTop(), nextBlockTop);
         drawnSchene.drawn(piece.getMedium(), nextBlockMedium);
         drawnSchene.drawn(piece.getBottom(), nextBlockBottom);

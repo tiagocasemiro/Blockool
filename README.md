@@ -7,5 +7,5 @@ Missing to implement.
  *Change color from blocks to gray at the end of the game
  *Pause alert
  *Game over alert
- *Optimize a screen rendering
  *Restart game button
+ *Ajust threads

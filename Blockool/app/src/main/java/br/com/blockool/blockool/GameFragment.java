@@ -10,14 +10,14 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import br.com.blockool.blockool.entity.Scene;
-import br.com.blockool.blockool.game.DrawnSchene;
+import br.com.blockool.blockool.game.DrawnScene;
 import br.com.blockool.blockool.game.GameLoop;
 import br.com.blockool.blockool.game.GameRulesProcess;
 import br.com.blockool.blockool.game.InputGestureProcess;
 
 public class GameFragment extends Fragment implements GameLoop.LoopListener, InputGestureProcess.Listener, GameRulesProcess.SceneListener{
     private GameLoop gameLoop;
-    private DrawnSchene drawnSchene;
+    private DrawnScene drawnSchene;
     private FrameLayout gameView;
     private GameRulesProcess gameRulesProcess;
 
@@ -39,7 +39,7 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
 
         gameView = (FrameLayout) root.findViewById(R.id.gameView);
         gameLoop = new GameLoop(this, getActivity());
-        drawnSchene = new DrawnSchene(getContext());
+        drawnSchene = new DrawnScene(getContext());
         gameRulesProcess = new GameRulesProcess(this, gameListener);
         gameRulesProcess.processGame();
         gameLoop.init();
@@ -98,7 +98,7 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
     @Override
     public void onScene(Scene scene) {
         if(scene.isGameRuuning()) {
-            View view = drawnSchene.getSchene(scene.getBlocks());
+            View view = drawnSchene.getScene(scene.getBlocks());
             gameView.removeAllViews();
             gameView.addView(view);
         }

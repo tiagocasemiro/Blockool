@@ -6,7 +6,7 @@ package br.com.blockool.blockool.entity;
 
 public class Level {
     private final int START_SCORE = 0;
-    private final int INCREMENT_LEVEL = 20;
+    private final int INCREMENT_LEVEL = 20; //number of points where it is necessary to increase the level.
     private final int MAX_LEVEL = 10;
     private final int FIRST_LEVEL = 1;
     private int value;

@@ -12,36 +12,70 @@ import br.com.blockool.blockool.entity.Block;
  * Created by tiago.casemiro on 18/07/2018.
  */
 
-public class DrawnSchene {
+public class DrawnScene {
     private Context context;
     private final Integer margin;
+    private LinearLayout container;
 
-    public DrawnSchene(Context context) {
+    public DrawnScene(Context context) {
         this.context = context;
-        margin = (int) context.getResources().getDimension(R.dimen.line_game);
+        this.margin = (int) context.getResources().getDimension(R.dimen.line_game);
     }
 
-    public View getSchene(Block[][] allBlocks) {
-        LinearLayout container =  new LinearLayout(context);
+    public void initScene(Block[][] allBlocks) {
+        container =  new LinearLayout(context);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f);
         container.setLayoutParams(layoutParams);
         container.setOrientation(LinearLayout.VERTICAL);
-        container.setPadding(margin,margin,margin,margin);
+        container.setPadding(margin, margin, margin, margin);
 
-        for (Block[] blocks: allBlocks){
+        int lineCount = 0;
+        for (Block[] blocks: allBlocks) {
+            int columCount = 0;
             LinearLayout line =  new LinearLayout(context);
             line.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f));
             line.setOrientation(LinearLayout.HORIZONTAL);
             for(Block block: blocks) {
                 View position = new View(context);
+                position.setId(joinNumbers(lineCount, columCount));
                 layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f);
                 layoutParams.setMargins(margin, margin, margin, margin);
                 position.setLayoutParams(layoutParams);
                 drawn(block, position);
                 line.addView(position);
+                columCount++;
             }
             container.addView(line);
+            lineCount++;
         }
+    }
+
+    public void reDrawnScene(Block[][] allBlocks) {
+        int lineCount = 0;
+        for (Block[] blocks: allBlocks){
+            int columCount = 0;
+            for(Block block: blocks) {
+                View position = container.findViewById(joinNumbers(lineCount, columCount));
+                drawn(block, position);
+                columCount++;
+            }
+            lineCount++;
+        }
+    }
+
+    private int joinNumbers(int first, int second) {
+        String firstNumber = String.valueOf(first);
+        String secondnumber = String.valueOf(second);
+        String number = firstNumber.concat(secondnumber);
+
+        return Integer.parseInt(number);
+    }
+
+    public View getScene(Block[][] allBlocks) {
+        if(container == null)
+            initScene(allBlocks);
+        else
+            reDrawnScene(allBlocks);
 
         return container;
     }
