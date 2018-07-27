@@ -15,8 +15,6 @@ import br.com.blockool.blockool.game.GameRulesProcess;
 import br.com.blockool.blockool.game.InputGestureProcess;
 
 public class MainActivity extends AppCompatActivity implements GameRulesProcess.GameListener{
-    public static final String LISTENER = "LISTENER";
-
     private FragmentManager fragmentManager;
     private GameFragment gameFragment;
     private InputGestureProcess inputGestureProcess;
@@ -65,7 +63,16 @@ public class MainActivity extends AppCompatActivity implements GameRulesProcess.
                 inputGestureProcess.init(event.getX(), event.getY());
                 break;
             case MotionEvent.ACTION_UP:
+                inputGestureProcess.finishMove();
+                break;
+            case MotionEvent.ACTION_MOVE:
                 inputGestureProcess.process(event.getX(), event.getY());
+                break;
+            case (MotionEvent.ACTION_CANCEL) :
+                inputGestureProcess.finishMove();
+                break;
+            case (MotionEvent.ACTION_OUTSIDE) :
+                inputGestureProcess.finishMove();
                 break;
         }
 

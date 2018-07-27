@@ -8,8 +8,10 @@ public class InputGestureProcess {
     private Listener listener;
     private Float oldX;
     private Float oldY;
-
-    private final float TOLERANCE = 80f;
+    private final float TOLERANCE_UP = 110f;
+    private final float TOLERANCE_DOWN = 40f;
+    private final float TOLERANCE_RIGHT = 55f;
+    private final float TOLERANCE_LEFT = 55f;
 
     public InputGestureProcess(Listener listener) {
         this.listener = listener;
@@ -22,21 +24,28 @@ public class InputGestureProcess {
 
     public void process(float x, float y) {
         if(oldX != null && oldY != null) {
-            if (x + TOLERANCE < oldX) {
+            if (x + TOLERANCE_LEFT < oldX) {
+                oldX = oldX - TOLERANCE_LEFT;
                 listener.onInputLeft();
             }
-            if (x - TOLERANCE > oldX) {
+            if (x - TOLERANCE_RIGHT > oldX) {
+                oldX = oldX + TOLERANCE_RIGHT;
                 listener.onInputRight();
             }
-            if (y + TOLERANCE  < oldY) {
+            if (y + TOLERANCE_UP  < oldY) {
+                oldY = oldY - TOLERANCE_UP;
                 listener.onInputUp();
             }
-            if (y - TOLERANCE > oldY) {
+            if (y - TOLERANCE_DOWN > oldY) {
+                oldY = oldY + TOLERANCE_DOWN;
                 listener.onInputDown();
             }
         }
-        oldY = null;
+    }
+
+    public void finishMove() {
         oldX = null;
+        oldY = null;
     }
 
     public interface Listener {

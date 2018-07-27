@@ -8,7 +8,7 @@ import java.util.Map;
  */
 
 public class Combination {
-    Map<String, Block> blocks;
+    private Map<String, Block> blocks;
 
     public Combination() {
         this.blocks = new HashMap<>();
