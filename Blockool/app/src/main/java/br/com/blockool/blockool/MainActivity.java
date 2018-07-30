@@ -24,7 +24,9 @@ public class MainActivity extends AppCompatActivity implements GameRulesProcess.
     private View nextBlockTop;
     private View nextBlockMedium;
     private View nextBlockBottom;
+    private ImageView action;
     private Dialog dialog;
+    private GameState gameState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,37 +34,54 @@ public class MainActivity extends AppCompatActivity implements GameRulesProcess.
         setContentView(R.layout.activity_main);
         score = (TextView) findViewById(R.id.score);
         level = (TextView) findViewById(R.id.level);
+        action = (ImageView) findViewById(R.id.action);
         nextBlockTop = findViewById(R.id.nextBlockTop);
         nextBlockMedium = findViewById(R.id.nextBlockmedium);
         nextBlockBottom = findViewById(R.id.nextBlockBottom);
         fragmentManager = getSupportFragmentManager();
-        gameFragment = new GameFragment();
         dialog = new Dialog();
+        initGame();
+    }
 
+    private void initGame() {
+        gameFragment = new GameFragment();
+        gameState = GameState.RUNNING;
         inputGestureProcess = new InputGestureProcess(gameFragment);
+        action.setImageResource(android.R.drawable.ic_media_play);
         fragmentManager
             .beginTransaction()
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .replace(R.id.game, gameFragment)
             .commit();
+        score.setText("0");
+        level.setText("0");
     }
 
-    public void playPause(View view) {
-        if(gameFragment.isPlaying()) {
+    public void playPause(final View view) {
+        if(gameState == GameState.FINISH) {
+            initGame();
+        } else if(gameState == GameState.RUNNING) {
             gameFragment.onPauseGame();
-            ((ImageView) view).setImageResource(android.R.drawable.ic_media_play);
-        } else {
+            action.setImageResource(android.R.drawable.ic_media_play);
+            dialog.create(this).button("RESUME").message("PAUSE").listener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    gameFragment.onResumeGame();
+                    action.setImageResource(android.R.drawable.ic_media_pause);
+                    gameState = GameState.RUNNING;
+                }
+            }).show();
+            gameState = GameState.PAUSED;
+        } else if (gameState == GameState.PAUSED) {
             gameFragment.onResumeGame();
-            ((ImageView) view).setImageResource(android.R.drawable.ic_media_pause);
+            action.setImageResource(android.R.drawable.ic_media_pause);
+            gameState = GameState.RUNNING;
         }
-
-        dialog.create(this).showGameOver();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int action = event.getActionMasked();
-
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 inputGestureProcess.init(event.getX(), event.getY());
@@ -96,11 +115,23 @@ public class MainActivity extends AppCompatActivity implements GameRulesProcess.
         DrawnScene.drawnGameOver(piece.getTop(), nextBlockTop);
         DrawnScene.drawnGameOver(piece.getMedium(), nextBlockMedium);
         DrawnScene.drawnGameOver(piece.getBottom(), nextBlockBottom);
+        gameState = GameState.FINISH;
+        action.setImageResource(R.drawable.restart);
+        dialog.create(this).button("RESTART").message("GAME OVER").listener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               initGame();
+            }
+        }).show();
     }
 
     @Override
     public void onScoreChange(int score, int level) {
         this.score.setText(String.valueOf(score));
         this.level.setText(String.valueOf(level));
+    }
+
+    public enum GameState {
+        RUNNING, PAUSED, FINISH
     }
 }

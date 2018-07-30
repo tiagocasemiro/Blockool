@@ -1,11 +1,8 @@
 package br.com.blockool.blockool.game;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import br.com.blockool.blockool.R;
@@ -16,13 +13,13 @@ import br.com.blockool.blockool.R;
 
 public class Dialog {
     private android.app.Dialog dialog;
+    private String labelButton;
+    private String message;
 
     public Dialog create(Context context){
         dialog = new android.app.Dialog(context);
         dialog.setContentView(R.layout.dialog);
-
-        View dialogButton = dialog.findViewById(R.id.restart);
-        dialogButton.setOnClickListener(new View.OnClickListener() {
+        dialog.findViewById(R.id.restart).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -32,10 +29,46 @@ public class Dialog {
         return this;
     }
 
-    public void showGameOver() {
-        TextView text = (TextView) dialog.findViewById(R.id.message);
-        text.setText("Game Over!");
-        dialog.show();
+    public Dialog listener(final View.OnClickListener onClickListener) {
+        dialog.findViewById(R.id.restart).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onClickListener != null) {
+                    onClickListener.onClick(v);
+                }
+                dialog.dismiss();
+            }
+        });
+
+        return this;
     }
 
+
+    public Dialog button(String labelButton) {
+        this.labelButton = labelButton;
+
+        return this;
+    }
+
+    public Dialog message(String message) {
+        this.message = message;
+
+        return this;
+    }
+
+    public void show() {
+        Button restart = ((Button) dialog.findViewById(R.id.restart));
+
+        if(labelButton != null) {
+            restart.setText(labelButton);
+        } else {
+            restart.setVisibility(View.GONE);
+        }
+
+        if(message != null) {
+            ((TextView) dialog.findViewById(R.id.message)).setText(message);
+        }
+
+        dialog.show();
+    }
 }

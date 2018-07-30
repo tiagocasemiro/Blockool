@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import br.com.blockool.blockool.entity.Scene;
 import br.com.blockool.blockool.game.DrawnScene;
@@ -35,7 +34,6 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_game, container, false);
-
         gameView = (FrameLayout) root.findViewById(R.id.gameView);
         gameLoop = new GameLoop(this, getActivity());
         drawnSchene = new DrawnScene(getContext(), gameView);
@@ -105,8 +103,6 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
         gameLoop.pause();
         gameLoop.stop();
         drawnSchene.gameOverScene(scene.getBlocks());
-
-        Toast.makeText(getContext(), "GAME OVER", Toast.LENGTH_LONG).show();
     }
 
     public boolean isPlaying() {
