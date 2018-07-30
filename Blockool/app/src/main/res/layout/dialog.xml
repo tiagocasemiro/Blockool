@@ -15,12 +15,12 @@
         android:textColor="@color/text_dialog"
         android:gravity="center"
         android:layout_weight="1"
-        android:background="@color/colorPrimaryDark"
-        android:layout_marginBottom="3dp"/>
+        android:background="@color/colorPrimaryDark"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Reiniciar"
+        android:layout_marginTop="3dp"
         android:id="@+id/restart"
        android:background="@color/colorPrimary"
         android:gravity="center"

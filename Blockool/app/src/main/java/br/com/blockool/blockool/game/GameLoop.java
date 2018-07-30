@@ -25,12 +25,7 @@ public class GameLoop {
         timer.schedule(new TimerTask() {
             public void run() {
                 if (isRunning) {
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                        loopListener.onLoop();
-                        }
-                    });
+                    loopListener.onLoop();
                 }
             }
         }, 100, 100);

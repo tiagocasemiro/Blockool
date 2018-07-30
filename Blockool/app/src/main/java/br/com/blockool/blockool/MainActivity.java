@@ -104,31 +104,46 @@ public class MainActivity extends AppCompatActivity implements GameRulesProcess.
     }
 
     @Override
-    public void onNextPiece(Piece piece) {
-        DrawnScene.drawn(piece.getTop(), nextBlockTop);
-        DrawnScene.drawn(piece.getMedium(), nextBlockMedium);
-        DrawnScene.drawn(piece.getBottom(), nextBlockBottom);
-    }
-
-    @Override
-    public void onGameOver(Piece piece) {
-        DrawnScene.drawnGameOver(piece.getTop(), nextBlockTop);
-        DrawnScene.drawnGameOver(piece.getMedium(), nextBlockMedium);
-        DrawnScene.drawnGameOver(piece.getBottom(), nextBlockBottom);
-        gameState = GameState.FINISH;
-        action.setImageResource(R.drawable.restart);
-        dialog.create(this).button("RESTART").message("GAME OVER").listener(new View.OnClickListener() {
+    public void onNextPiece(final Piece piece) {
+        runOnUiThread(new Runnable() {
             @Override
-            public void onClick(View v) {
-               initGame();
+            public void run() {
+                DrawnScene.drawn(piece.getTop(), nextBlockTop);
+                DrawnScene.drawn(piece.getMedium(), nextBlockMedium);
+                DrawnScene.drawn(piece.getBottom(), nextBlockBottom);
             }
-        }).show();
+        });
     }
 
     @Override
-    public void onScoreChange(int score, int level) {
-        this.score.setText(String.valueOf(score));
-        this.level.setText(String.valueOf(level));
+    public void onGameOver(final Piece piece) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                DrawnScene.drawnGameOver(piece.getTop(), nextBlockTop);
+                DrawnScene.drawnGameOver(piece.getMedium(), nextBlockMedium);
+                DrawnScene.drawnGameOver(piece.getBottom(), nextBlockBottom);
+                gameState = GameState.FINISH;
+                action.setImageResource(R.drawable.restart);
+                dialog.create(MainActivity.this).button("RESTART").message("GAME OVER").listener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        initGame();
+                    }
+                }).show();
+            }
+        });
+    }
+
+    @Override
+    public void onScoreChange(final int score, final int level) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                MainActivity.this.score.setText(String.valueOf(score));
+                MainActivity.this.level.setText(String.valueOf(level));
+            }
+        });
     }
 
     public enum GameState {

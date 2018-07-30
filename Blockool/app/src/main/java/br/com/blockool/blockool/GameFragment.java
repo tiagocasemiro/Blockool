@@ -93,16 +93,26 @@ public class GameFragment extends Fragment implements GameLoop.LoopListener, Inp
     }
 
     @Override
-    public void onScene(Scene scene) {
-        if(scene.isGameRuuning())
-           drawnSchene.getScene(scene.getBlocks());
+    public void onScene(final Scene scene) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(scene.isGameRuuning())
+                    drawnSchene.getScene(scene.getBlocks());
+            }
+        });
     }
 
     @Override
-    public void onGameOver(Scene scene) {
-        gameLoop.pause();
-        gameLoop.stop();
-        drawnSchene.gameOverScene(scene.getBlocks());
+    public void onGameOver(final Scene scene) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                gameLoop.pause();
+                gameLoop.stop();
+                drawnSchene.gameOverScene(scene.getBlocks());
+            }
+        });
     }
 
     public boolean isPlaying() {
